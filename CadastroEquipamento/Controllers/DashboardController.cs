@@ -11,25 +11,33 @@ namespace CadastroEquipamento.Controllers
         private readonly IUsuarioService _usuarioService;
         private readonly IEquipamentoService _equipamentoService;
         private readonly IVinculoService _vinculoService;
+        private readonly IApiUsuariosService _apiUsuariossService;
 
-        public DashboardController(IUsuarioService usuarioService, IEquipamentoService equipamentoService,IVinculoService vinculoService )
+        public DashboardController(IUsuarioService usuarioService, 
+            IEquipamentoService equipamentoService,
+            IVinculoService vinculoService,
+            IApiUsuariosService apiUsuariosService
+            )
         {
             _usuarioService = usuarioService;
             _equipamentoService = equipamentoService;
             _vinculoService = vinculoService;
+            _apiUsuariossService = apiUsuariosService;
         }
 
         public IActionResult Index()
         {
             var usuariosCount = _usuarioService.ObterTodos().Count();
             var equipamentosCount = _equipamentoService.ObterTodos().Count();
-            var vinculosCount = _equipamentoService.ObterTodos().Count();
+            var vinculosCount = _vinculoService.ObterTodos().Count();
+            var apiUsuariosCount = _apiUsuariossService.ListarUsuariosAsync().Result.Count();
 
             var dashboard = new DashboardViewModel
             {
                 TotalUsuarios = usuariosCount,
                 TotalEquipamentos = equipamentosCount,
-                TotalVinculos = vinculosCount
+                TotalVinculos = vinculosCount,
+                TotalUsuariosAPI = apiUsuariosCount
             };
 
             return View(dashboard);

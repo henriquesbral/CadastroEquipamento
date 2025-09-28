@@ -29,4 +29,9 @@ namespace CadastroEquipamento.Web.Models
         public int CodEquipamento { get; set; }
         public string Nome { get; set; }
     }
+    public class DesvincularRequest
+    {
+        public int EquipamentoId { get; set; }
+        public int UsuarioId { get; set; }
+    }
 }

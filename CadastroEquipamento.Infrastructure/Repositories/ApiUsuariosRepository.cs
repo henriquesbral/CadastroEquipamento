@@ -26,7 +26,9 @@ namespace CadastroEquipamento.Infrastructure.Repositories
             var usuarios = JsonSerializer.Deserialize<IEnumerable<ApiUser>>(json,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            return usuarios ?? new List<ApiUser>();
+            var result = usuarios ?? new List<ApiUser>();
+
+            return result;
         }
     }
 }

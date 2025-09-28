@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,29 +7,102 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CadastroEquipamento.styles.css" asp-append-version="true" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <style>
+
+        :root {
+            --bradesco-red: #E60000;
+            --bradesco-darkred: #B20000;
+            --bradesco-black: #000000;
+            --bradesco-dark: #1A1A1A;
+            --bradesco-light: #F8F8F8;
+        }
+
+        body {
+            background-color: var(--bradesco-light);
+        }
+
+
+        .navbar {
+            background-color: var(--bradesco-red) !important;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            color: #fff !important;
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
+
+        .offcanvas {
+            background-color: var(--bradesco-dark);
+            color: #fff;
+        }
+
+        .offcanvas-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .offcanvas-title {
+            font-weight: bold;
+            color: var(--bradesco-red);
+        }
+
+        .nav-link {
+            color: #fff;
+            transition: all 0.2s;
+        }
+
+            .nav-link:hover {
+                color: var(--bradesco-red);
+                background-color: rgba(255, 255, 255, 0.05);
+                border-radius: 6px;
+                padding-left: 12px;
+            }
+
+
+        main {
+            padding: 30px 15px;
+        }
+
+        footer {
+            background: var(--bradesco-dark);
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-dark bg-dark" aria-label="Dark offcanvas navbar">
+        <nav class="navbar navbar-dark fixed-top shadow">
             <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand mx-auto text-center" href="#">Sistema de Cadastro de Equipamentos</a>
-                <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasNavbarDark" aria-labelledby="offcanvasNavbarDarkLabel">
+                <a class="navbar-brand mx-auto text-center" href="/Dashboard">Cadastro de Equipamentos</a>
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">
                     <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasNavbarDarkLabel">Bem vindo !</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <h5 class="offcanvas-title">Bem-vindo!</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
                     </div>
                     <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 text-bg-dark">
-                            <li class="nav-item"><a class="nav-link" aria-current="page" href="/Dashboard">Dashboard</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/Usuario">Usuarios</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/Equipamento">Equipamentos</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/ApiUsuarios">Lista de Usuarios</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/Vinculo">Vinculos</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/Email">Emails Enviados</a></li>
+                        <ul class="navbar-nav flex-grow-1 pe-3">
+                            <li class="nav-item"><a class="nav-link" href="/Dashboard">📊 Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Usuario">👤 Usuários</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Equipamento">💻 Equipamentos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/ApiUsuarios">📋 Lista de Usuários</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Vinculo">🔗 Vínculos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Email">✉️ Emails Enviados</a></li>
                         </ul>
                     </div>
                 </div>
@@ -37,8 +110,8 @@
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container" style="margin-top: 80px;">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
@@ -46,9 +119,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
-    <!-- Adicione esta linha para renderizar a seção Scripts das views -->
     @RenderSection("Scripts", required: false)
 </body>
 </html>

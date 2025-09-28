@@ -50,6 +50,24 @@ public class VinculoController : Controller
                 })
             }).ToList();
 
+
+            if (!vinculos.Any())
+            {
+                vinculos.Add(new VinculoViewModel
+                {
+                    UsuariosDisponiveis = usuarios.Select(u => new UsuarioDropdownViewModel
+                    {
+                        CodUsuario = u.CodUsuario,
+                        Nome = u.Nome
+                    }),
+                    EquipamentoDisponiveis = equipamentos.Select(e => new EquipamentoDropdownViewModel
+                    {
+                        CodEquipamento = e.CodEquipamento,
+                        Nome = e.Nome
+                    })
+                });
+            }
+
             return View(vinculos);
         }
         catch (Exception ex)
@@ -87,6 +105,7 @@ public class VinculoController : Controller
         {
             var equipamento = _equipamentoService.ObterPorId(vinculo.CodEquipamento);
             var usuario = _usuarioService.ObterPorId(vinculo.CodUsuario);
+            int tipo = 1;
 
             if (equipamento == null || usuario == null)
                 return Json(new { success = false, message = "Usuário ou equipamento não encontrado." });
@@ -102,8 +121,11 @@ public class VinculoController : Controller
                 usuario.Email,
                 usuario.Nome,
                 equipamento.Nome,
-                DateTime.Now
+                DateTime.Now,
+                tipo
             );
+
+            _emailService.Adicionar(usuario.CodUsuario, equipamento.CodEquipamento, tipo);
 
             return Json(new
             {
@@ -118,17 +140,27 @@ public class VinculoController : Controller
     }
 
     [HttpPost]
-    public IActionResult Desvincular([FromBody] Vinculo vinculo)
+    public IActionResult Desvincular([FromBody] DesvincularRequest request)
     {
         try
         {
-            var equipamento = _equipamentoService.ObterPorId(vinculo.CodEquipamento);
-            var usuario = _usuarioService.ObterPorId(vinculo.CodUsuario);
+            var equipamento = _equipamentoService.ObterPorId(request.EquipamentoId);
+            var usuario = _usuarioService.ObterPorId(request.UsuarioId);
+            var tipo = 2;
 
             if (equipamento == null || usuario == null)
                 return Json(new { success = false, message = "Usuário ou equipamento não encontrado." });
 
-            _vinculoService.Desvincular(vinculo.CodEquipamento);
+            _vinculoService.Desvincular(request.EquipamentoId);
+            _emailService.EnviarEmailVinculo(
+                usuario.Email,
+                usuario.Nome,
+                equipamento.Nome,
+                DateTime.Now,
+                tipo
+            );
+
+            _emailService.Adicionar(usuario.CodUsuario, equipamento.CodEquipamento, tipo);
 
             return Json(new
             {
