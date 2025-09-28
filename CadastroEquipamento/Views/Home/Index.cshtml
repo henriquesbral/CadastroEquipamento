@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null; // sem layout
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <title>Aguarde...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        img {
+            max-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #b5121b;
+            margin-bottom: 15px;
+        }
+
+        .loader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #b5121b;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+    <script>
+        // Redireciona automaticamente
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Index", "Dashboard")';
+        }, 10000);
+    </script>
+</head>
+<body>
+    <img src="~/images/LogoBradesco.png" alt="Logo Bradesco" />
+    <h2>Bem-vindo ao Sistema de Cadastro de Equipamentos do Bradesco</h2>
+    <p>Redirecionando para o painel...</p>
+    <div class="loader"></div>
+</body>
+</html>

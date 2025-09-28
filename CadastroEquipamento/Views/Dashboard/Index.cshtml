@@ -1,0 +1,57 @@
+﻿@model CadastroEquipamento.Web.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<style>
+    .card-bradesco-red {
+        background-color: #E60000;
+        color: #FFFFFF;
+    }
+
+    .card-bradesco-black {
+        background-color: #000000;
+        color: #FFFFFF;
+    }
+
+    .card-title {
+        font-weight: 600;
+    }
+
+    .display-4 {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center" style="color:#E60000;">Dashboard Dos Dados</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-bradesco-red mb-3 shadow">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Usuários Cadastrados</h4>
+                    <p class="display-4">@Model.TotalUsuarios</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card card-bradesco-black mb-3 shadow">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Equipamentos Cadastrados</h4>
+                    <p class="display-4">@Model.TotalEquipamentos</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card card-bradesco-black mb-3 shadow">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Vinculos Cadastrados</h4>
+                    <p class="display-4">@Model.TotalVinculos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
