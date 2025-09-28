@@ -22,7 +22,7 @@ namespace CadastroEquipamento.Application.Services
         }
         public List<Vinculo> ObterTodos() => _repo.ObterTodos();
 
-        public void Vincular(int codEquipamento, int codUsuario) => _repo.Vincular(codEquipamento, codUsuario);
+        public void Vincular(Vinculo vinculo) => _repo.Vincular(vinculo);
 
         public void Desvincular(int codEquipamento) => _repo.Desvincular(codEquipamento);
     }

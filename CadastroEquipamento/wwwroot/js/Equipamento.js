@@ -1,30 +1,31 @@
-﻿$(document).ready(function () {
+﻿const showMessage = (modal, msg, isSuccess = true) => {
+    const alertType = isSuccess ? "alert-success" : "alert-danger";
+    const alertDiv = `
+        <div class="alert ${alertType} alert-dismissible fade show" role="alert">
+            ${msg}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+    modal.find(".alert-placeholder").html(alertDiv);
+};
 
-    const showMessage = (msg, isSuccess = true, callback) => {
-        const alertType = isSuccess ? "alert-success" : "alert-danger";
-        const alertDiv = $(`
-            <div class="alert ${alertType} alert-dismissible fade show" role="alert">
-                ${msg}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        `);
-        $("body").prepend(alertDiv);
+$(document).ready(function () {
 
-        setTimeout(() => {
-            alertDiv.remove();
-            if (callback) callback();
-        }, 1000);
-    };
 
-    // Criar equipamento
     $(".createEquipamentoForm").submit(function (e) {
         e.preventDefault();
         const form = $(this);
-        const modal = form.closest(".modal"); // captura a modal atual
+        const modal = form.closest(".modal");
         const data = form.serializeArray();
         const obj = {};
         data.forEach(item => obj[item.name] = item.value);
         obj.Status = obj["Status-create"] === "true";
+
+
+        if (obj.DataAquisicao && new Date(obj.DataAquisicao) > new Date()) {
+            showMessage(modal, "A data de aquisição não pode ser maior que a data atual.", false);
+            return;
+        }
 
         $.ajax({
             url: "/Equipamento/Create",
@@ -32,20 +33,16 @@
             contentType: "application/json",
             data: JSON.stringify(obj),
             success: function (result) {
-                const bootstrapModal = bootstrap.Modal.getInstance(modal[0]);
-                if (bootstrapModal) bootstrapModal.hide();
-
-                showMessage(result.message, result.success, () => {
-                    if (result.success) location.reload();
-                });
+                showMessage(modal, result.message, result.success);
+                if (result.success) setTimeout(() => location.reload(), 1500);
             },
             error: function (err) {
-                showMessage("Erro na requisição: " + err.responseText, false);
+                showMessage(modal, "Erro na requisição: " + err.responseText, false);
             }
         });
     });
 
-    // Editar equipamento
+
     $(".editEquipamentoForm").submit(function (e) {
         e.preventDefault();
         const form = $(this);
@@ -56,44 +53,43 @@
         data.forEach(item => obj[item.name] = item.value);
         obj.Status = obj[`Status-${id}`] === "true";
 
+
+        if (obj.DataAquisicao && new Date(obj.DataAquisicao) > new Date()) {
+            showMessage(modal, "A data de aquisição não pode ser maior que a data atual.", false);
+            return;
+        }
+
         $.ajax({
             url: "/Equipamento/Edit",
             type: "PATCH",
             contentType: "application/json",
             data: JSON.stringify(obj),
             success: function (result) {
-                const bootstrapModal = bootstrap.Modal.getInstance(modal[0]);
-                if (bootstrapModal) bootstrapModal.hide();
-
-                showMessage(result.message, result.success, () => {
-                    if (result.success) location.reload();
-                });
+                showMessage(modal, result.message, result.success);
+                if (result.success) setTimeout(() => location.reload(), 1500);
             },
             error: function (err) {
-                showMessage("Erro na requisição: " + err.responseText, false);
+                showMessage(modal, "Erro na requisição: " + err.responseText, false);
             }
         });
     });
-
-    // Excluir equipamento
-    $(".delete-btn").click(function () {
-        if (!confirm("Deseja realmente excluir este equipamento?")) return;
-        const id = $(this).val();
-
-        $.ajax({
-            url: "/Equipamento/Delete",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({ codEquipamento: id }),
-            success: function (result) {
-                showMessage(result.message, result.success, () => {
-                    if (result.success) location.reload();
-                });
-            },
-            error: function (err) {
-                showMessage("Erro na requisição: " + err.responseText, false);
-            }
-        });
-    });
-
 });
+
+function DeletarEquipamento(btn) {
+    const id = $(btn).data("id");
+    if (!confirm("Deseja realmente excluir este equipamento?")) return;
+
+    $.ajax({
+        url: "/Equipamento/Delete",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(id),
+        success: function (result) {
+            alert(result.message);
+            if (result.success) location.reload();
+        },
+        error: function (err) {
+            alert("Erro na requisição: " + err.responseText);
+        }
+    });
+}

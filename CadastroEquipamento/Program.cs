@@ -1,5 +1,9 @@
 ﻿using CadastroEquipamento.Application;
+using CadastroEquipamento.Application.Interfaces;
+using CadastroEquipamento.Application.Services;
 using CadastroEquipamento.Infrastructure;
+using CadastroEquipamento.Infrastructure.Config;
+using CadastroEquipamento.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,17 +14,13 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
-// Teste da connection string
-var conn = builder.Configuration.GetConnectionString("DefaultConnection");
-if (string.IsNullOrWhiteSpace(conn))
-    throw new Exception("Connection string 'DefaultConnection' não encontrada!");
-
-Console.WriteLine($"Connection String carregada: {conn}");
-
 // Serviços
 builder.Services.AddControllersWithViews();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddHttpClient<ApiUsuariosRepository>();
+builder.Services.AddScoped<ApiUsuariosService>();
+builder.Services.Configure<EmailLogSettings>(builder.Configuration.GetSection("EmailLog"));
 
 var app = builder.Build();
 

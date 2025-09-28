@@ -25,14 +25,14 @@ namespace CadastroEquipamento.Infrastructure.Repositories
             return connection.Query<Vinculo>("usp_ObterVinculos", commandType: CommandType.StoredProcedure).ToList();
         }
 
-        public void Vincular(int codEquipamento, int codUsuario)
+        public void Vincular(Vinculo vinculo)
         {
             using var connection = _connectionFactory.CreateConnection();
             connection.Execute("usp_VincularEquipamento",
                 new
                 {
-                    CodEquipamento = codEquipamento,
-                    CodUsuario = codUsuario
+                    CodEquipamento = vinculo.CodEquipamento,
+                    CodUsuario = vinculo.CodUsuario
                 },
                 commandType: CommandType.StoredProcedure);
         }

@@ -1,42 +1,86 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
-    var vincularModal = document.getElementById('vincularModal');
+    const equipamentoSelect = document.getElementById('EquipamentoSelect');
+    const usuarioSelect = document.getElementById('UsuarioSelect');
+    const equipamentoIdInput = document.getElementById('EquipamentoId');
+    const btnVincular = document.getElementById('btnVincular');
+    const form = document.getElementById('formVinculo');
 
-    // Preenche modal com EquipamentoId e seleciona usuário atual
-    vincularModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget;
-        var equipamentoId = button.getAttribute('data-equipamentoid');
-        var usuarioId = button.getAttribute('data-usuarioid');
+    // Atualiza usuários disponíveis ao selecionar equipamento
+    equipamentoSelect?.addEventListener('change', function () {
+        const equipamentoId = this.value;
+        equipamentoIdInput.value = equipamentoId;
 
-        document.getElementById('EquipamentoId').value = equipamentoId;
-        document.getElementById('UsuarioSelect').value = usuarioId || "";
+        if (!equipamentoId) {
+            usuarioSelect.innerHTML = '<option value="">-- Selecione --</option>';
+            usuarioSelect.disabled = true;
+            btnVincular.disabled = true;
+            return;
+        }
+
+        fetch(`/Vinculo/UsuariosDisponiveis?equipamentoId=${equipamentoId}`)
+            .then(res => res.json())
+            .then(data => {
+                usuarioSelect.innerHTML = '<option value="">-- Selecione --</option>';
+                data.forEach(u => {
+                    const opt = document.createElement('option');
+                    opt.value = u.codUsuario;
+                    opt.textContent = u.nome;
+                    usuarioSelect.appendChild(opt);
+                });
+                usuarioSelect.disabled = false;
+                btnVincular.disabled = false;
+            })
+            .catch(err => console.error(err));
     });
 
-    // Submit do formulário usando VinculoViewModel
-    var form = document.getElementById('formVinculo');
+    // Preenche modal ao abrir
+    const vincularModal = document.getElementById('vincularModal');
+    vincularModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const equipamentoId = button.getAttribute('data-equipamentoid');
+        const usuarioId = button.getAttribute('data-usuarioid');
+
+        equipamentoSelect.value = equipamentoId || "";
+        equipamentoIdInput.value = equipamentoId || "";
+        usuarioSelect.value = usuarioId || "";
+        btnVincular.disabled = !equipamentoId;
+    });
+
+    // Submit do vínculo
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        var data = {
-            EquipamentoId: document.getElementById('EquipamentoId').value,
-            UsuarioId: document.getElementById('UsuarioSelect').value
+        const data = {
+            EquipamentoId: equipamentoIdInput.value,
+            UsuarioId: usuarioSelect.value
         };
 
         fetch('/Vinculo/Vincular', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
-        }).then(() => location.reload());
+        })
+            .then(res => {
+                if (res.ok) location.reload();
+                else alert("Erro ao vincular equipamento.");
+            })
+            .catch(err => console.error(err));
     });
 
     // Desvincular
-    document.querySelectorAll('.desvincular-btn').forEach(function (btn) {
+    document.querySelectorAll('.desvincular-btn').forEach(btn => {
         btn.addEventListener('click', function () {
-            var data = { EquipamentoId: this.getAttribute('data-equipamentoid') };
+            const equipamentoId = this.getAttribute('data-equipamentoid');
             fetch('/Vinculo/Desvincular', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }).then(() => location.reload());
+                body: JSON.stringify({ EquipamentoId: equipamentoId })
+            })
+                .then(res => {
+                    if (res.ok) location.reload();
+                    else alert("Erro ao desvincular equipamento.");
+                })
+                .catch(err => console.error(err));
         });
     });
 });

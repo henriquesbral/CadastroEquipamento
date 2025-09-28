@@ -103,7 +103,7 @@ $(document).ready(function () {
 
 function DeletarUsuario(btn) {
     const id = $(btn).data("id");
-    console.log("O id é: " + id)
+
     if (!confirm("Deseja realmente excluir este usuario?")) return;
 
     $.ajax({

@@ -1,17 +1,26 @@
 ﻿using CadastroEquipamento.Application.Interfaces;
+using CadastroEquipamento.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CadastroEquipamento.Application.Services
 {
     public class EmailService : IEmailService
     {
-        public void EnviarEmail(string destinatario, string assunto, string mensagem)
+        private readonly EmailRepository _repo;
+
+        public EmailService(EmailRepository repo)
         {
-            Console.WriteLine($"[E-mail] Para: {destinatario}, Assunto: {assunto}, Mensagem: {mensagem}");
+            _repo = repo;
         }
+
+        public void EnviarEmail(string destinatario, string assunto, string mensagem)
+            => _repo.EnviarEmail(destinatario, assunto, mensagem);
+
+        public void EnviarEmailVinculo(string destinatario, string nomeUsuario, string nomeEquipamento, DateTime dataVinculo)
+            => _repo.EnviarEmailVinculo(destinatario, nomeUsuario, nomeEquipamento, dataVinculo);
+
+        public IEnumerable<string> ObterLogs()
+            => _repo.ObterLogs();
     }
 }

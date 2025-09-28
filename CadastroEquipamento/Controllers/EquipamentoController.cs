@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using CadastroEquipamento.Application.Interfaces;
-using CadastroEquipamento.Web.Models;
+﻿using CadastroEquipamento.Application.Interfaces;
+using CadastroEquipamento.Application.Services;
 using CadastroEquipamento.Domain.Entities;
+using CadastroEquipamento.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroEquipamento.Web.Controllers
 {
@@ -45,6 +46,9 @@ namespace CadastroEquipamento.Web.Controllers
         {
             try
             {
+                if (equipamentos.DataAquisicao > DateTime.Now)
+                    return Json(new { success = false, message = "A data de aquisição não pode ser maior que a data atual." });
+
                 var equipamento = new Equipamento
                 {
                     Nome = equipamentos.Nome,
@@ -69,6 +73,9 @@ namespace CadastroEquipamento.Web.Controllers
         {
             try
             {
+                if (equipamentos.DataAquisicao > DateTime.Now)
+                    return Json(new { success = false, message = "A data de aquisição não pode ser maior que a data atual." });
+
                 var equipamentoExistente = _service.ObterPorId(equipamentos.CodEquipamento);
                 if (equipamentoExistente == null)
                     return Json(new { success = false, message = "Equipamento não encontrado!" });
@@ -90,11 +97,11 @@ namespace CadastroEquipamento.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete([FromBody] DeleteViewlModel request)
+        public IActionResult Delete([FromBody] int id)
         {
             try
             {
-                _service.Remover(request.codEquipamento);
+                _service.Remover(id);
                 return Json(new { success = true, message = "Equipamento excluído com sucesso!" });
             }
             catch (Exception ex)

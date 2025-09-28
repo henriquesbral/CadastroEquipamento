@@ -10,7 +10,7 @@ namespace CadastroEquipamento.Application.Interfaces
     public interface IVinculoService
     {
         List<Vinculo> ObterTodos();
-        void Vincular(int codEquipamento, int codUsuario);
+        void Vincular(Vinculo vinculo);
         void Desvincular(int codEquipamento);
     }
 }

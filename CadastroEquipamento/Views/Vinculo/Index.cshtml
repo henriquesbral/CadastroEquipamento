@@ -99,12 +99,6 @@
                             <td>@v.NomeUsuario</td>
                             <td>@v.DataVinculo?.ToString("yyyy-MM-dd HH:mm")</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-bradesco-black me-2 vincular-btn"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#vincularModal"
-                                        data-equipamentoid="@v.EquipamentoId">
-                                    Vincular
-                                </button>
                                 <button type="button" class="btn btn-sm btn-bradesco-red desvincular-btn"
                                         data-equipamentoid="@v.EquipamentoId">
                                     Desvincular
@@ -159,39 +153,4 @@
 
 @section Scripts {
     <script src="~/js/Vinculo.js"></script>
-    <script>
-        const equipamentoSelect = document.getElementById('EquipamentoSelect');
-        const usuarioSelect = document.getElementById('UsuarioSelect');
-        const equipamentoIdInput = document.getElementById('EquipamentoId');
-        const btnVincular = document.getElementById('btnVincular');
-
-        equipamentoSelect?.addEventListener('change', function () {
-            const equipamentoId = this.value;
-            equipamentoIdInput.value = equipamentoId;
-
-            if (!equipamentoId) {
-                usuarioSelect.innerHTML = '<option value="">-- Selecione --</option>';
-                usuarioSelect.disabled = true;
-                btnVincular.disabled = true;
-                return;
-            }
-
-         fetch(`/Vinculo/UsuariosDisponiveis?equipamentoId=${equipamentoId}`)
-        .then(res => res.json())
-        .then(data => {
-            usuarioSelect.innerHTML = '<option value="">-- Selecione --</option>';
-            data.forEach(u => {
-                const opt = document.createElement('option');
-                opt.value = u.codUsuario;
-                opt.textContent = u.nome;
-                usuarioSelect.appendChild(opt);
-            });
-            usuarioSelect.disabled = false;
-            btnVincular.disabled = false;
-        })
-        .catch(err => console.error(err));
-
-
-        });
-    </script>
 }
