@@ -68,9 +68,9 @@
 });
 
 function Desvincular(btn) {
-    debugger
     const equipamentoId = $(btn).data("equipamentoid");
     const usuarioId = $(btn).data("usuarioid");
+    const vinculoId = $(btn).data("vinculoid");
 
     if (!confirm("Deseja realmente excluir este vínculo?")) return;
 
@@ -78,7 +78,11 @@ function Desvincular(btn) {
         url: "/Vinculo/Desvincular",
         type: "POST",
         contentType: "application/json",
-        data: JSON.stringify({ equipamentoId: equipamentoId, usuarioId: usuarioId }),
+        data: JSON.stringify({
+            EquipamentoId: equipamentoId,
+            UsuarioId: usuarioId,
+            VinculoId: vinculoId
+        }),
         success: function (result) {
             alert(result.message);
             if (result.success) location.reload();

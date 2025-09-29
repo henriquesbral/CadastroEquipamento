@@ -33,6 +33,7 @@ public class VinculoController : Controller
 
             var vinculos = vinculosDomain.Select(v => new VinculoViewModel
             {
+                CodVinculo = v.CodVinculo,
                 EquipamentoId = v.CodEquipamento,
                 UsuarioId = v.CodUsuario,
                 NomeEquipamento = v.NomeEquipamento,
@@ -105,7 +106,7 @@ public class VinculoController : Controller
         {
             var equipamento = _equipamentoService.ObterPorId(vinculo.CodEquipamento);
             var usuario = _usuarioService.ObterPorId(vinculo.CodUsuario);
-            int tipo = 1;
+            int tipo = 1; //Vinculo
 
             if (equipamento == null || usuario == null)
                 return Json(new { success = false, message = "Usuário ou equipamento não encontrado." });
@@ -146,12 +147,13 @@ public class VinculoController : Controller
         {
             var equipamento = _equipamentoService.ObterPorId(request.EquipamentoId);
             var usuario = _usuarioService.ObterPorId(request.UsuarioId);
-            var tipo = 2;
+            var tipo = 2; // Desvinculo
 
             if (equipamento == null || usuario == null)
                 return Json(new { success = false, message = "Usuário ou equipamento não encontrado." });
 
-            _vinculoService.Desvincular(request.EquipamentoId);
+            _vinculoService.Desvincular(request.VinculoId);
+
             _emailService.EnviarEmailVinculo(
                 usuario.Email,
                 usuario.Nome,

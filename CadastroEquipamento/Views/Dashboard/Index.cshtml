@@ -3,64 +3,125 @@
     ViewData["Title"] = "Dashboard";
 }
 
+<!-- Google Fonts e Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-yBfMJnPlF0..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background: #f5f5f5;
+    }
+
+    h2 {
+        color: #E60000;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        padding: 30px 20px;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
     .card-bradesco-red {
-        background-color: #E60000;
-        color: #FFFFFF;
+        background: linear-gradient(135deg, #E60000, #FF4D4D);
+        color: #fff;
     }
 
     .card-bradesco-black {
-        background-color: #000000;
-        color: #FFFFFF;
+        background: linear-gradient(135deg, #000000, #333333);
+        color: #fff;
     }
 
     .card-title {
         font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
     }
 
     .display-4 {
-        font-weight: bold;
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        opacity: 0.8;
+        transition: opacity 0.3s;
+    }
+
+    .card:hover .icon {
+        opacity: 1;
+    }
+
+    .dashboard-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .dashboard-col {
+        flex: 1 1 300px;
     }
 </style>
 
 <div class="container mt-5">
-    <h2 class="mb-4 text-center" style="color:#E60000;">Dashboard Dos Dados</h2>
+    <h2>Dashboard de Dados</h2>
+    <div class="dashboard-row">
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card card-bradesco-red mb-3 shadow">
-                <div class="card-body text-center">
+        <div class="dashboard-col">
+            <div class="card card-bradesco-red">
+                <div class="text-center">
+                    <i class="fa-solid fa-users icon"></i>
                     <h4 class="card-title">Usuários Cadastrados</h4>
                     <p class="display-4">@Model.TotalUsuarios</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card card-bradesco-black mb-3 shadow">
-                <div class="card-body text-center">
+        <div class="dashboard-col">
+            <div class="card card-bradesco-black">
+                <div class="text-center">
+                    <i class="fa-solid fa-desktop icon"></i>
                     <h4 class="card-title">Equipamentos Cadastrados</h4>
                     <p class="display-4">@Model.TotalEquipamentos</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card card-bradesco-black mb-3 shadow">
-                <div class="card-body text-center">
-                    <h4 class="card-title">Vinculos Cadastrados</h4>
+        <div class="dashboard-col">
+            <div class="card card-bradesco-black">
+                <div class="text-center">
+                    <i class="fa-solid fa-link icon"></i>
+                    <h4 class="card-title">Vínculos Cadastrados</h4>
                     <p class="display-4">@Model.TotalVinculos</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card card-bradesco-red mb-3 shadow">
-                <div class="card-body text-center">
-                    <h4 class="card-title">Usuarios API</h4>
+        <div class="dashboard-col">
+            <div class="card card-bradesco-red">
+                <div class="text-center">
+                    <i class="fa-solid fa-user-gear icon"></i>
+                    <h4 class="card-title">Usuários API</h4>
                     <p class="display-4">@Model.TotalUsuariosAPI</p>
                 </div>
             </div>
         </div>
+
     </div>
 </div>

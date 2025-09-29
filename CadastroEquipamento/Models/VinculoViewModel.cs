@@ -4,6 +4,8 @@ namespace CadastroEquipamento.Web.Models
 {
     public class VinculoViewModel
     {
+        public int CodVinculo { get; set; }
+
         [Required]
         public int EquipamentoId { get; set; }
 
@@ -33,5 +35,6 @@ namespace CadastroEquipamento.Web.Models
     {
         public int EquipamentoId { get; set; }
         public int UsuarioId { get; set; }
+        public int VinculoId { get; set; }
     }
 }

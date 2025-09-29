@@ -1,5 +1,52 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Relatórios";
 }
+
+<h2>Relatórios</h2>
+
+<div class="card p-4 mt-3">
+    <div class="mb-4">
+        <label for="relatorioSelect" class="form-label">Selecione o relatório para exportar:</label>
+        <select id="relatorioSelect" class="form-select w-50">
+            <option value="">-- Selecione --</option>
+            <option value="Usuarios">Usuários</option>
+            <option value="Equipamentos">Equipamentos</option>
+            <option value="ApiUsuarios">API Usuários</option>
+            <option value="Vinculos">Vínculos</option>
+            <option value="Emails">E-mails</option>
+        </select>
+        <button type="button" class="btn btn-bradesco-red mt-3" id="btnExportar">Exportar CSV</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Relatorios.js"></script>
+}
+
+<style>
+    .btn-bradesco-red {
+        background-color: #E60000;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-weight: 600;
+    }
+
+        .btn-bradesco-red:hover {
+            background-color: #B20000;
+        }
+
+    h2 {
+        color: #E60000;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem;
+    }
+</style>

@@ -1,66 +1,139 @@
 ﻿@{
-    Layout = null; // sem layout
+    Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8" />
-    <title>Aguarde...</title>
+    <title>Bem-vindo | Bradesco</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
+        /* Reset e estilo base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             height: 100vh;
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5, #ffffff);
+            color: #333;
+            text-align: center;
         }
 
-        img {
-            max-width: 250px;
-            margin-bottom: 20px;
+        /* Container animado */
+        .home-container {
+            background: #fff;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 700px;
+            width: 90%;
+            animation: fadeIn 1s ease-in-out;
         }
 
-        h2 {
+        img.logo {
+            max-width: 200px;
+            margin-bottom: 30px;
+            transition: transform 0.5s ease-in-out;
+        }
+
+            img.logo:hover {
+                transform: scale(1.1);
+            }
+
+        h1 {
+            font-size: 28px;
             color: #b5121b;
             margin-bottom: 15px;
+            font-weight: 700;
         }
 
+        p.subtitle {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        /* Loader estilo moderno */
         .loader {
             border: 6px solid #f3f3f3;
             border-top: 6px solid #b5121b;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
+            margin: 0 auto;
         }
 
+        /* Keyframes */
         @@keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
+            0%
 
-            100% {
-                transform: rotate(360deg);
-            }
+        {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+
+        }
+
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        /* Mensagem de contagem regressiva */
+        .countdown {
+            margin-top: 20px;
+            font-weight: 500;
+            color: #b5121b;
         }
     </style>
 
     <script>
-        // Redireciona automaticamente
-        setTimeout(function () {
-            window.location.href = '@Url.Action("Index", "Dashboard")';
-        }, 10000);
+        // Contador regressivo
+        let countdown = 10;
+        function updateCountdown() {
+            document.getElementById('countdown').textContent = countdown;
+            if (countdown === 0) {
+                window.location.href = '@Url.Action("Index", "Dashboard")';
+            }
+            countdown--;
+        }
+        setInterval(updateCountdown, 1000);
     </script>
 </head>
 <body>
-    <img src="~/images/LogoBradesco.png" alt="Logo Bradesco" />
-    <h2>Bem-vindo ao Sistema de Cadastro de Equipamentos do Bradesco</h2>
-    <p>Redirecionando para o painel...</p>
-    <div class="loader"></div>
+    <div class="home-container">
+        <img src="~/images/LogoBradesco.png" alt="Logo Bradesco" class="logo" />
+        <h1>Bem-vindo ao Sistema de Cadastro de Equipamentos</h1>
+        <p class="subtitle">Você será redirecionado automaticamente para o painel principal.</p>
+        <div class="loader"></div>
+        <div class="countdown">Redirecionando em <span id="countdown">10</span> segundos...</div>
+    </div>
 </body>
 </html>
