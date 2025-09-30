@@ -38,6 +38,14 @@ namespace CadastroEquipamento.Infrastructure.Repositories
                 commandType: CommandType.StoredProcedure);
         }
 
+        public Usuario ObterPorEmail(string email)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+            return connection.QueryFirstOrDefault<Usuario>("usp_ObterPorEmail",
+                new { Email = email },
+                commandType: CommandType.StoredProcedure);
+        }
+
         public void Adicionar(Usuario usuario)
         {
             using var connection = _connectionFactory.CreateConnection();

@@ -13,6 +13,7 @@ namespace CadastroEquipamento.Application.Interfaces
         List<Usuario> ObterTodos();
         List<Usuario> ObterUsuarioSemVinculo();
         Usuario ObterPorId(int id);
+        Usuario ObterPorEmail(string email);
         void Adicionar(Usuario usuario);
         void Atualizar(Usuario usuario);
         void Remover(int id);

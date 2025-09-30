@@ -54,9 +54,19 @@ namespace CadastroEquipamento.Web.Controllers
                         Departamento = usuarios.Departamento
                     };
 
-                    _usuarioService.Adicionar(usuario);
+                    var emailExiste = _usuarioService.ObterPorEmail(usuario.Email.Trim());
+                    
+                    if (emailExiste != null)
+                    {
+                        return Json(new { success = false, message = "Esse email ja está vinculado a um usuário !" });
+                    }
+                    else
+                    {
+                        _usuarioService.Adicionar(usuario);
 
-                    return Json(new { success = true, message = "Usuario criado com sucesso!" });
+                        return Json(new { success = true, message = "Usuario criado com sucesso!" });
+                    }
+
                 }
                 else
                 {

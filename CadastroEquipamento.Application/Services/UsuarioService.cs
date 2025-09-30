@@ -18,6 +18,7 @@ namespace CadastroEquipamento.Application.Services
         public List<Usuario> ObterUsuarioSemVinculo() => _repo.ObterUsuariosSemVinculos();
 
         public Usuario ObterPorId(int id) => _repo.ObterPorId(id);
+        public Usuario ObterPorEmail(string email) => _repo.ObterPorEmail(email);
 
         public void Adicionar(Usuario Usuario) => _repo.Adicionar(Usuario);
 

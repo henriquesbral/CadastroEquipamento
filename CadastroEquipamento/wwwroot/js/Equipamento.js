@@ -1,12 +1,24 @@
-﻿const showMessage = (modal, msg, isSuccess = true) => {
+﻿const showMessage = (msg, isSuccess = true, callback) => {
     const alertType = isSuccess ? "alert-success" : "alert-danger";
-    const alertDiv = `
+    const alertDiv = $(`
         <div class="alert ${alertType} alert-dismissible fade show" role="alert">
             ${msg}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-    `;
-    modal.find(".alert-placeholder").html(alertDiv);
+    `);
+
+    const openModal = $('.modal.show');
+
+    if (openModal.length > 0) {
+        openModal.find('.modal-body').prepend(alertDiv);
+    } else {
+        $("body").prepend(alertDiv);
+    }
+
+    setTimeout(() => {
+        alertDiv.alert('close'); 
+        if (callback) callback();
+    }, 3000); 
 };
 
 $(document).ready(function () {
